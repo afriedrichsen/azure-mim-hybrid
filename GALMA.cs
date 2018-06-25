@@ -202,7 +202,7 @@ namespace MIM.Sync.GALSyncCs
                 //  case "cd.user:displayName,mail->mv.person:displayName":
                 //      if (csentry["mail"].IsPresent && csentry["displayName"].IsPresent && csentry["usbNickname"].IsPresent)
                 //      {
-                //          mventry["displayName"].Value = csentry["sn"].Value.ToString() +", " + csentry["usbNickname"].Value.ToString() + " (" + ((csentry["mail"].Value.Split('@')[1]).Split('.')[0]).ToUpper() +")";
+                //          mventry["displayName"].Value = csentry["sn"].Value.ToString() +", " + csentry["adfNickname"].Value.ToString() + " (" + ((csentry["mail"].Value.Split('@')[1]).Split('.')[0]).ToUpper() +")";
                 //      }
                 //      else
                 //      {
@@ -228,10 +228,10 @@ namespace MIM.Sync.GALSyncCs
 
                 // Download profile picture from a URL, convert to byte array (which is format for AD attribute thumbailPhoto). - AFRIEDRICHSEN 10/26/17
                 case "afriedPhotofromURLRule":
-                    if (csentry["usbPhotoURL"].IsPresent) {
+                    if (csentry["adfPhotoURL"].IsPresent) {
                         var webClient = new WebClient();
                         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                        byte[] imageBytes = webClient.DownloadData(csentry["usbPhotoURL"].Value);
+                        byte[] imageBytes = webClient.DownloadData(csentry["adfPhotoURL"].Value);
                         mventry["mvThumbNail-Photo"].BinaryValue = imageBytes;
                             }
                     break;
@@ -252,15 +252,15 @@ namespace MIM.Sync.GALSyncCs
 
                 // This rule synchs HR job title for Company1 users from custom attribute in AD. - Company1 10/21/17
                 case "afriedTitleRule":
-                    if (csentry["usbJobFamilyName"].IsPresent)
+                    if (csentry["adfJobFamilyName"].IsPresent)
                     {
-                        if (csentry["usbOfficerTitle"].IsPresent)
+                        if (csentry["adfOfficerTitle"].IsPresent)
                         {
-                            mventry["title"].Value = csentry["usbJobFamilyName"].Value +"-"+ csentry["usbOfficerTitle"].Value;
+                            mventry["title"].Value = csentry["adfJobFamilyName"].Value +"-"+ csentry["adfOfficerTitle"].Value;
                         }
                         else
                         {
-                            mventry["title"].Value = csentry["usbJobFamilyName"].Value;
+                            mventry["title"].Value = csentry["adfJobFamilyName"].Value;
                         }
                     }
                     else
@@ -269,7 +269,7 @@ namespace MIM.Sync.GALSyncCs
                     }
                     break;
                     /* case "afriedDisplayNameRule":
-                         if (csentry["usbNickname"].IsPresent)
+                         if (csentry["adfNickname"].IsPresent)
                          {
                              string mailSuffix = "@" + (csentry["mail"].Value.Split('@')[1]);
                              mailSuffix = mailSuffix.ToLower();
@@ -293,13 +293,13 @@ namespace MIM.Sync.GALSyncCs
                          break;
                          */
 
-                    // Display name on the USB side is should contain nickname (if one is present for the user in USB AD). 
+                    // Display name on the adf side is should contain nickname (if one is present for the user in adf AD). 
                     // Otherwise sync default displayName as exists in AD. - AFRIEDRICHSEN 10/26/17.
                 case "afriedDisplayNameRule":
                     if (csentry["mail"].IsPresent)
                     {
                         string strInitials = "";
-                        if (csentry["usbNickname"].IsPresent)
+                        if (csentry["adfNickname"].IsPresent)
                         {
                             //We need to check for a middle initial if we are going to build a display name. If we don't we get an error while synching. AFRIEDRICHSEN
                             if (csentry["initials"].IsPresent)
@@ -310,8 +310,8 @@ namespace MIM.Sync.GALSyncCs
                             {
                                 strInitials = "";
                             }
-                            //Build the display name for a USB user's Company2 Contact to contain USB user's nickname.
-                           string targetDisplayName = csentry["sn"].Value + ", " + csentry["usbNickname"].Value + " " + (strInitials) + " (Company1)";
+                            //Build the display name for a adf user's Company2 Contact to contain adf user's nickname.
+                           string targetDisplayName = csentry["sn"].Value + ", " + csentry["adfNickname"].Value + " " + (strInitials) + " (Company1)";
                            mventry["displayName"].Value = targetDisplayName;
                         }
                         else
