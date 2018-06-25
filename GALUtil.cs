@@ -1417,7 +1417,7 @@ namespace MIM.Sync.GALSyncCs
 			{
 				string ProxyAddressString = ProxyAddress.ToString();
 
-                // dkegg 06 Jan 2016 - added hasBeenMigrated to logic for smtp selection in function call
+                // AFRIEDRICHSEN 06 Jan 2016 - added hasBeenMigrated to logic for smtp selection in function call
 				if (ProxyAddressString.ToUpper().StartsWith(SMTP_PREFIX))
 				{
 					if (ProxyAddressIsInSMTPMailDomain(csentry, ProxyAddressString, onlyMatchingFirstSuffix, hasBeenMigrated))
@@ -1460,7 +1460,7 @@ namespace MIM.Sync.GALSyncCs
 			foreach (string MailDomainSuffix_loopVariable in MAConfig.MailDomainNames) {
 				MailDomainSuffix = MailDomainSuffix_loopVariable;
 
-                // dkegg 06 Jan 2016 - checking for mail.onmicrosoft.com address first and returning it 
+                // AFRIEDRICHSEN 06 Jan 2016 - checking for mail.onmicrosoft.com address first and returning it 
                 if (hasBeenMigrated && ProxyAddress.ToLower().Contains("mail.onmicrosoft.com"))
                 {
                     return true;
@@ -1479,7 +1479,7 @@ namespace MIM.Sync.GALSyncCs
 		}
        
 
-        // dkegg 06 Jan 2016 - added to calculate if migration has occurred
+        // AFRIEDRICHSEN 06 Jan 2016 - added to calculate if migration has occurred
 
         protected bool hasMailboxBeenMigrated(CSEntry csentry)
         {

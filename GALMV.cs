@@ -15,7 +15,7 @@ namespace MIM.Sync.GALSyncCs
 
 	public class MVSynchronizer : GALSyncCs.Synchronizer, IMVSynchronization
 	{
-        // dkegg - 17 Jan 2016 - declaring all customizer variables as global 
+        // AFRIEDRICHSEN - 17 Jan 2016 - declaring all customizer variables as global 
         bool useHubAndSpoke;
         string HubDomainName;
         string HubMAName;

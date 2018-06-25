@@ -1,4 +1,4 @@
-using Microsoft.VisualBasic;
+﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -354,7 +354,7 @@ namespace MIM.Sync.GALSyncCs
 
                     if (csentry.ObjectType == USER)
                     {
-                        // dkegg 06 Jan 2016 - passing MVEntry migrated value along when calling functions
+                        // AFRIEDRICHSEN 06 Jan 2016 - passing MVEntry migrated value along when calling functions
                         bool hasBeenMigrated = hasMailboxBeenMigrated(csentry);
 
                         IAFTargetAddressForUser(csentry, ref mventry, hasBeenMigrated);
@@ -721,7 +721,7 @@ namespace MIM.Sync.GALSyncCs
 			//
 			string TargetAddress = null;
 
-            // dkegg 06 Jan 2016 - added hasBeenMigrated boolean to function
+            // AFRIEDRICHSEN 06 Jan 2016 - added hasBeenMigrated boolean to function
             if (hasBeenMigrated)
             {
                 TargetAddress = csentry[TARGET_ADDRESS].Value;
@@ -731,7 +731,7 @@ namespace MIM.Sync.GALSyncCs
                 TargetAddress = FindMatchedDomainSuffix(csentry, true, false, hasBeenMigrated);
             }
 
-            //// dkegg 06 Jan 2016 - flip prefix to upper SMTP when using the service routing address as TA
+            //// AFRIEDRICHSEN 06 Jan 2016 - flip prefix to upper SMTP when using the service routing address as TA
             //if (TargetAddress.ToString().ToLower().Contains("mail.onmicrosoft.com"))
             //{
             //    TargetAddress = "SMTP:" + TargetAddress.ToString().ToLower().Split(':')[1];
@@ -749,7 +749,7 @@ namespace MIM.Sync.GALSyncCs
 		private void IAFTargetAddressForGroup(CSEntry csentry, ref MVEntry mventry)
 		{
 			string TargetAddress = null;
-            // dkegg 06 Jan 2016 - setting hasBeenMigrated flag to false by default for groups
+            // AFRIEDRICHSEN 06 Jan 2016 - setting hasBeenMigrated flag to false by default for groups
 			TargetAddress = FindMatchedDomainSuffix(csentry, false, false, false);
 
 			if (TargetAddress == null) {
@@ -777,7 +777,7 @@ namespace MIM.Sync.GALSyncCs
 			// the authoritative container.
 			//
 
-            // dkegg - 17 Jan 2016 - configuring GalSync to support the o=ExchangeLabs x500 address added by AAD Connect
+            // AFRIEDRICHSEN - 17 Jan 2016 - configuring GalSync to support the o=ExchangeLabs x500 address added by AAD Connect
             // create a list to hold all x500 addresses with o=ExchangeLabs
 
             List<string> CloudLegDNs = new List<string>();
@@ -819,7 +819,7 @@ namespace MIM.Sync.GALSyncCs
 				InsertProxyAddress(ref x500Address, ref proxyAddressCollection);
 			}
 
-            // dkegg - 17 Jan 2016 - configuring GalSync to support the o=ExchangeLabs x500 address added by AAD Connect 
+            // AFRIEDRICHSEN - 17 Jan 2016 - configuring GalSync to support the o=ExchangeLabs x500 address added by AAD Connect 
             // add the ExchangeLabs x500 addresses from our new list back to the array
 
             foreach (var value in CloudLegDNs) 
@@ -1119,7 +1119,7 @@ namespace MIM.Sync.GALSyncCs
 				if (((uac & UAC_USER_ACCOUNT) > 0) && !mventry[MASTER_ACCOUNT_SID].IsPresent)
 				{
 
-                    // dkegg - 16 Jan 2016 - updated to .values instead of .value
+                    // AFRIEDRICHSEN - 16 Jan 2016 - updated to .values instead of .value
 					if (mventry[SID_HISTORY].IsPresent)
 					{
 						csentry[MASTER_ACCOUNT_HISTORY].Values = mventry[SID_HISTORY].Values;
